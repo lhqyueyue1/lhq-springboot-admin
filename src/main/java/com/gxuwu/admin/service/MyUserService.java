@@ -26,5 +26,5 @@ public interface MyUserService {
     List<Role> AssginByUserId(String userId);
     List<Role> noAssginByUserId(String userId);
 
-    void soAssgin(String userId, List<String> roleIdList);
+    void doAssgin(String userId, List<String> roleIdList);
 }

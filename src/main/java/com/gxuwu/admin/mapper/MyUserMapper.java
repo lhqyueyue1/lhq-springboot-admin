@@ -3,6 +3,7 @@ package com.gxuwu.admin.mapper;
 import com.gxuwu.admin.entity.MyUser;
 import com.gxuwu.admin.entity.MyUserExample;
 import com.gxuwu.admin.entity.Role;
+import com.gxuwu.admin.entity.UserRole;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,5 +43,8 @@ public interface MyUserMapper {
 
     List<Role> noAssginByUserId(String userId);
 
-    void insertUserAndRoleRelation(@Param("userId") String userId,@Param("roleIdList") List<String> roleIdList);
+    void insertUserAndRoleRelation(
+            @Param("userId") String userId,
+            @Param("roleIdList") List<String> roleIdList,
+            @Param("userRole")UserRole userRole);
 }

@@ -4,18 +4,19 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gxuwu.admin.entity.MyUser;
-import com.gxuwu.admin.entity.MyUserExample;
 import com.gxuwu.admin.entity.Role;
+import com.gxuwu.admin.entity.UserRole;
 import com.gxuwu.admin.mapper.MyUserMapper;
 import com.gxuwu.admin.service.MyUserService;
-import com.gxuwu.admin.utils.R;
+import javafx.scene.control.RadioMenuItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class MyUserServiceImpl implements MyUserService {
@@ -82,7 +83,13 @@ public class MyUserServiceImpl implements MyUserService {
     }
 
     @Override
-    public void soAssgin(String userId, List<String> roleIdList) {
-        myUserMapper.insertUserAndRoleRelation(userId,roleIdList);
+    public void doAssgin(String userId, List<String> roleIdList) {
+        UserRole userRole = new UserRole();
+        userRole.setGmtCreate(new Date());
+        userRole.setGmtModified(new Date());
+        Random random = new Random();
+        int i = random.nextInt();
+        userRole.setId("id"+i);
+        myUserMapper.insertUserAndRoleRelation(userId,roleIdList,userRole);
     }
 }

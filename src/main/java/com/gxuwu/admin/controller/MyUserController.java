@@ -27,7 +27,7 @@ public class MyUserController {
     public R doAssagin(String userId,List<String> roleIdList){
 
 
-        myUserService.soAssgin(userId,roleIdList);
+        myUserService.doAssgin(userId,roleIdList);
 
         return R.ok();
     }

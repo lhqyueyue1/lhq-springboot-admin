@@ -69,6 +69,17 @@
   <sql id="Base_Column_List" >
     id, role_name, remark, gmt_create, gmt_modified
   </sql>
+
+  <select id="selectByLimit" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_role
+    <if test="keyword!=null">
+    where role_name like concat('%',#{keyword},'%')
+    </if>
+    limit #{begin},#{pageSize}
+
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gxuwu.admin.entity.RoleExample" >
     select
     <if test="distinct" >
@@ -84,11 +95,19 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_role
     where id = #{id,jdbcType=CHAR}
   </select>
+  <delete id="roleIdList">
+    delete from t_role
+    where id in
+    <foreach collection="roleIdList" item="roleId" separator="," open="(" close=")">
+      #{roleId}
+    </foreach>
+  </delete>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from t_role
     where id = #{id,jdbcType=CHAR}
@@ -100,9 +119,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.gxuwu.admin.entity.Role" >
-    insert into t_role (id, role_name, remark, 
+    insert into t_role (id, role_name, remark,
       gmt_create, gmt_modified)
-    values (#{id,jdbcType=CHAR}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=CHAR}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.gxuwu.admin.entity.Role" >

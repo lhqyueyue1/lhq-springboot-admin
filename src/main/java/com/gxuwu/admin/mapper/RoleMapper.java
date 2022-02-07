@@ -3,8 +3,11 @@ package com.gxuwu.admin.mapper;
 import com.gxuwu.admin.entity.Role;
 import com.gxuwu.admin.entity.RoleExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+@Mapper
 public interface RoleMapper {
     int countByExample(RoleExample example);
 
@@ -27,4 +30,10 @@ public interface RoleMapper {
     int updateByPrimaryKeySelective(Role record);
 
     int updateByPrimaryKey(Role record);
+
+    List<Role> selectByLimit(@Param("begin") Integer begin,
+                             @Param("pageSize") Integer pageSize,
+                             @Param("keyword") String keyword);
+
+    void deleteBatchById(@Param("roleIdList") List<String> roleIdList);
 }
