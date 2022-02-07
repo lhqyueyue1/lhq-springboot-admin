@@ -36,4 +36,5 @@ public interface RoleMapper {
                              @Param("keyword") String keyword);
 
     void deleteBatchById(@Param("roleIdList") List<String> roleIdList);
+
 }
