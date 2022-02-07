@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.gxuwu.admin.mapper.MyUserMapper" >
-  <resultMap id="BaseResultMap" type="com.gxuwu.admin.entity.MyUser" >
+<mapper namespace="com.gxuwu.admin.mapper.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.gxuwu.admin.entity.Role" >
     <id column="id" property="id" jdbcType="CHAR" />
-    <result column="username" property="username" jdbcType="VARCHAR" />
-    <result column="password" property="password" jdbcType="VARCHAR" />
-    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
-    <result column="salt" property="salt" jdbcType="VARCHAR" />
-    <result column="token" property="token" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="gmt_create" property="gmtCreate" jdbcType="TIMESTAMP" />
     <result column="gmt_modified" property="gmtModified" jdbcType="TIMESTAMP" />
   </resultMap>
@@ -70,22 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, username, password, nick_name, salt, token, gmt_create, gmt_modified
+    id, role_name, remark, gmt_create, gmt_modified
   </sql>
-
-  <select id="selectByLimit" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_user
-    limit #{begin},#{pageSize}
-  </select>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gxuwu.admin.entity.MyUserExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gxuwu.admin.entity.RoleExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from t_user
+    from t_role
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,61 +83,39 @@
       order by ${orderByClause}
     </if>
   </select>
-
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select
+    select 
     <include refid="Base_Column_List" />
-    from t_user
+    from t_role
     where id = #{id,jdbcType=CHAR}
   </select>
-
-  <delete id="deleteBatchRemove" >
-     delete from t_user
-    where id in
-    <foreach collection="idList" item="id"  open="(" close=")" separator=",">
-      #{id,jdbcType=CHAR}
-    </foreach>
-  </delete>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from t_user
+    delete from t_role
     where id = #{id,jdbcType=CHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.gxuwu.admin.entity.MyUserExample" >
-    delete from t_user
+  <delete id="deleteByExample" parameterType="com.gxuwu.admin.entity.RoleExample" >
+    delete from t_role
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-
-
-  <insert id="insert" parameterType="com.gxuwu.admin.entity.MyUser" >
-    insert into t_user (id, username, password,
-      nick_name, salt, token,
+  <insert id="insert" parameterType="com.gxuwu.admin.entity.Role" >
+    insert into t_role (id, role_name, remark, 
       gmt_create, gmt_modified)
-    values (#{id,jdbcType=CHAR}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
-      #{nickName,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR},
+    values (#{id,jdbcType=CHAR}, #{roleName,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{gmtCreate,jdbcType=TIMESTAMP}, #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.gxuwu.admin.entity.MyUser" >
-    insert into t_user
+  <insert id="insertSelective" parameterType="com.gxuwu.admin.entity.Role" >
+    insert into t_role
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="username != null" >
-        username,
+      <if test="roleName != null" >
+        role_name,
       </if>
-      <if test="password != null" >
-        password,
-      </if>
-      <if test="nickName != null" >
-        nick_name,
-      </if>
-      <if test="salt != null" >
-        salt,
-      </if>
-      <if test="token != null" >
-        token,
+      <if test="remark != null" >
+        remark,
       </if>
       <if test="gmtCreate != null" >
         gmt_create,
@@ -160,20 +128,11 @@
       <if test="id != null" >
         #{id,jdbcType=CHAR},
       </if>
-      <if test="username != null" >
-        #{username,jdbcType=VARCHAR},
+      <if test="roleName != null" >
+        #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="nickName != null" >
-        #{nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null" >
-        #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="token != null" >
-        #{token,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null" >
         #{gmtCreate,jdbcType=TIMESTAMP},
@@ -183,32 +142,23 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.gxuwu.admin.entity.MyUserExample" resultType="java.lang.Integer" >
-    select count(*) from t_user
+  <select id="countByExample" parameterType="com.gxuwu.admin.entity.RoleExample" resultType="java.lang.Integer" >
+    select count(*) from t_role
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update t_user
+    update t_role
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=CHAR},
       </if>
-      <if test="record.username != null" >
-        username = #{record.username,jdbcType=VARCHAR},
+      <if test="record.roleName != null" >
+        role_name = #{record.roleName,jdbcType=VARCHAR},
       </if>
-      <if test="record.password != null" >
-        password = #{record.password,jdbcType=VARCHAR},
-      </if>
-      <if test="record.nickName != null" >
-        nick_name = #{record.nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.salt != null" >
-        salt = #{record.salt,jdbcType=VARCHAR},
-      </if>
-      <if test="record.token != null" >
-        token = #{record.token,jdbcType=VARCHAR},
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
       </if>
       <if test="record.gmtCreate != null" >
         gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
@@ -222,36 +172,24 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update t_user
+    update t_role
     set id = #{record.id,jdbcType=CHAR},
-      username = #{record.username,jdbcType=VARCHAR},
-      password = #{record.password,jdbcType=VARCHAR},
-      nick_name = #{record.nickName,jdbcType=VARCHAR},
-      salt = #{record.salt,jdbcType=VARCHAR},
-      token = #{record.token,jdbcType=VARCHAR},
+      role_name = #{record.roleName,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{record.gmtModified,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.gxuwu.admin.entity.MyUser" >
-    update t_user
+  <update id="updateByPrimaryKeySelective" parameterType="com.gxuwu.admin.entity.Role" >
+    update t_role
     <set >
-      <if test="username != null" >
-        username = #{username,jdbcType=VARCHAR},
+      <if test="roleName != null" >
+        role_name = #{roleName,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="nickName != null" >
-        nick_name = #{nickName,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null" >
-        salt = #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="token != null" >
-        token = #{token,jdbcType=VARCHAR},
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null" >
         gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
@@ -262,13 +200,10 @@
     </set>
     where id = #{id,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.gxuwu.admin.entity.MyUser" >
-    update t_user
-    set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      nick_name = #{nickName,jdbcType=VARCHAR},
-      salt = #{salt,jdbcType=VARCHAR},
-      token = #{token,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.gxuwu.admin.entity.Role" >
+    update t_role
+    set role_name = #{roleName,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=TIMESTAMP},
       gmt_modified = #{gmtModified,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=CHAR}
