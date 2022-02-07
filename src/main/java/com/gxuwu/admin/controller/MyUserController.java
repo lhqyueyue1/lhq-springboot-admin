@@ -2,12 +2,15 @@ package com.gxuwu.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.gxuwu.admin.entity.MyUser;
+import com.gxuwu.admin.entity.Role;
 import com.gxuwu.admin.service.MyUserService;
 import com.gxuwu.admin.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/acl/user")
@@ -21,9 +24,10 @@ public class MyUserController {
      * @return
      */
     @PostMapping("/doAssign")
-    public R doAssagin(String userId,List<String> roleId){
+    public R doAssagin(String userId,List<String> roleIdList){
 
 
+        myUserService.soAssgin(userId,roleIdList);
 
         return R.ok();
     }
@@ -36,9 +40,12 @@ public class MyUserController {
     @GetMapping("/toAssign/{userId}")
     public R toAssign(@PathVariable("userId") String userId){
 
-        myUserService.toAssginByUserId(userId);
 
-        return R.ok();
+        List<Role> noAssginRoleList = myUserService.noAssginByUserId(userId);
+
+        List<Role> assginRoleLis = myUserService.AssginByUserId(userId);
+
+        return R.ok().data("noAssginRoleList",noAssginRoleList).data("assginRoleLis",assginRoleLis);
     }
     @PostMapping("/save")
     public R saveUser(MyUser user){
@@ -50,9 +57,13 @@ public class MyUserController {
         return R.ok();
     }
     @PutMapping("/update")
-    public R updateById( MyUser user){
+    public R updateById(MyUser user){
 
         System.out.println("当前修改的用户"+user.toString());
+        //设置当前日期为修改时间
+        Date date = new Date();
+        user.setGmtModified(date);
+
         myUserService.update(user);
 
         return R.ok();

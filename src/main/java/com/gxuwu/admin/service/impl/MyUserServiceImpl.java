@@ -5,12 +5,17 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gxuwu.admin.entity.MyUser;
 import com.gxuwu.admin.entity.MyUserExample;
+import com.gxuwu.admin.entity.Role;
 import com.gxuwu.admin.mapper.MyUserMapper;
 import com.gxuwu.admin.service.MyUserService;
+import com.gxuwu.admin.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MyUserServiceImpl implements MyUserService {
@@ -61,7 +66,23 @@ public class MyUserServiceImpl implements MyUserService {
     }
 
     @Override
-    public void toAssginByUserId(String userId) {
-//        myUserMapper.toAssginByUserId(userId);
+    public List<Role> AssginByUserId (String userId) {
+
+        List<Role> assginRoleList = myUserMapper.AssginByUserId(userId);
+
+        return assginRoleList;
+
+    }
+
+    @Override
+    public List<Role> noAssginByUserId(String userId) {
+
+        List<Role> noAssginRoleList = myUserMapper.noAssginByUserId(userId);
+        return noAssginRoleList;
+    }
+
+    @Override
+    public void soAssgin(String userId, List<String> roleIdList) {
+        myUserMapper.insertUserAndRoleRelation(userId,roleIdList);
     }
 }

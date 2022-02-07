@@ -2,8 +2,10 @@ package com.gxuwu.admin.service;
 
 import com.github.pagehelper.PageInfo;
 import com.gxuwu.admin.entity.MyUser;
+import com.gxuwu.admin.entity.Role;
 
 import java.util.List;
+import java.util.Map;
 
 public interface MyUserService {
 
@@ -21,5 +23,8 @@ public interface MyUserService {
 
     public void deleteByIdBatch(List<String> idList);
 
-    void toAssginByUserId(String userId);
+    List<Role> AssginByUserId(String userId);
+    List<Role> noAssginByUserId(String userId);
+
+    void soAssgin(String userId, List<String> roleIdList);
 }

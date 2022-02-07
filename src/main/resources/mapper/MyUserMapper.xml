@@ -72,6 +72,14 @@
   <sql id="Base_Column_List" >
     id, username, password, nick_name, salt, token, gmt_create, gmt_modified
   </sql>
+  <select id="AssginByUserId" resultType="com.gxuwu.admin.entity.Role">
+    select * from t_role where id=(select role_id from t_user_role where user_id=#{userId})
+  </select>
+  <select id="noAssginByUserId" resultType="com.gxuwu.admin.entity.Role">
+    SELECT * FROM t_role
+    WHERE id NOT IN (SELECT role_id FROM t_user_role WHERE user_id=#{userId})
+  </select>
+
 
   <select id="selectByLimit" resultMap="BaseResultMap">
     select
@@ -119,7 +127,14 @@
     </if>
   </delete>
 
+<insert id="insertUserAndRoleRelation">
+  insert into t_user_role(id,role_id,user_id,gmt_create, gmt_modified)
+  values
+  <foreach collection="roleIdList" item="roleId" separator=",">
+    (#{id},#{roleId},#{userId},#{gmt_create},#{gmt_modified})
+  </foreach>
 
+</insert>
   <insert id="insert" parameterType="com.gxuwu.admin.entity.MyUser" >
     insert into t_user (id, username, password,
       nick_name, salt, token,

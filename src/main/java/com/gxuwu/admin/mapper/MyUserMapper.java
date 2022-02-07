@@ -2,8 +2,10 @@ package com.gxuwu.admin.mapper;
 
 import com.gxuwu.admin.entity.MyUser;
 import com.gxuwu.admin.entity.MyUserExample;
+import com.gxuwu.admin.entity.Role;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -34,4 +36,11 @@ public interface MyUserMapper {
     int updateByPrimaryKey(MyUser record);
 
     void deleteBatchRemove(@Param("idList") List<String> idList);
+
+
+    List<Role> AssginByUserId(String userId);
+
+    List<Role> noAssginByUserId(String userId);
+
+    void insertUserAndRoleRelation(@Param("userId") String userId,@Param("roleIdList") List<String> roleIdList);
 }
