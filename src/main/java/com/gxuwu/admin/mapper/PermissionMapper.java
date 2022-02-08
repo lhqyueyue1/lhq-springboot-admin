@@ -3,8 +3,10 @@ package com.gxuwu.admin.mapper;
 import com.gxuwu.admin.entity.Permission;
 import com.gxuwu.admin.entity.PermissionExample;
 import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+@Mapper
 public interface PermissionMapper {
     int countByExample(PermissionExample example);
 
