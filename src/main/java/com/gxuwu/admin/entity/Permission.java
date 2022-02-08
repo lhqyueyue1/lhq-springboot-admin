@@ -1,6 +1,7 @@
 package com.gxuwu.admin.entity;
 
 import java.util.Date;
+import java.util.List;
 
 public class Permission {
     private String id;
@@ -24,6 +25,16 @@ public class Permission {
     private Date gmtCreate;
 
     private Date gmtModified;
+
+    private List<Permission> chidren;
+
+    public List<Permission> getChidren() {
+        return chidren;
+    }
+
+    public void setChidren(List<Permission> chidren) {
+        this.chidren = chidren;
+    }
 
     public String getId() {
         return id;

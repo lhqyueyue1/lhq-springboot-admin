@@ -17,6 +17,10 @@ public class RoleController {
     @Autowired
     private RoleService roleService;
 
+    @GetMapping("/get/{id}")
+    public R getRole(@PathVariable("id") String id){
+        return R.ok();
+    }
 
     @GetMapping("/{page}/{pageSize}")
     public R getPageList(

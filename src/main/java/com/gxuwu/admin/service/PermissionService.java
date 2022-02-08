@@ -6,5 +6,8 @@ import java.util.List;
 
 public interface PermissionService {
 
+    public List<Permission> getAllPermission();
 
+
+    void doAssign(String roleId, List<String> permissionIdList);
 }
